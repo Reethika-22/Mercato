@@ -29,7 +29,12 @@ export default function AddProduct() {
             }
           })
           .catch((err)=>{
-            alert(err.response.data.message)
+            //alert(err.response.data.message)
+            Swal .fire({
+              title: "Error",
+              text: err.response.data.message,
+              icon: "error"
+            })
           })
     }
 
