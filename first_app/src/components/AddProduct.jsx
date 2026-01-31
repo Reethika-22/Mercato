@@ -14,9 +14,10 @@ export default function AddProduct() {
   async function addProduct(e) {
     e.preventDefault()
     const newProduct = {
-      name, price, description, category, stock: Number(stock), role
+      name, price, description, category, stock: Number(stock)
     }
-    axios.post("http://localhost:4000/api/product/add", newProduct)
+    console.log(role)
+    axios.post("http://localhost:4000/api/product/add", newProduct,{headers:{role:"admin"}},)
       .then((res) => {
         console.log(res)
         if (res.status == 201) {
@@ -25,7 +26,7 @@ export default function AddProduct() {
             text: "Product added successfully.",
             icon: "success"
           })
-          navigate("/")
+          navigate("/cart")
         }
       })
       .catch((err) => {

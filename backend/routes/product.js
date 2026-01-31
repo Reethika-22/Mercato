@@ -5,7 +5,7 @@ const Product = require("../models/Product.js");
 // Admin Middleware
 const isAdmin = (req, res, next) => {
   const role = req.headers.role;
-
+    console.log("Role from request body:", role);
   if (role !== "admin") {
     return res.status(403).json({ message: "Access denied. Admins only." });
   }
@@ -21,7 +21,7 @@ router.post("/add", isAdmin, async (req, res) => {
     const newProduct = new Product({ name, price, description, category, stock });
     await newProduct.save();
 
-    res.status(201).json({ message: "Product added successfully" });
+    res.status(200).json({ message: "Product added successfully" });
   } catch (err) {
     console.log("Error adding product", err);
     res.status(500).json({ message: "Server error while adding product" });
