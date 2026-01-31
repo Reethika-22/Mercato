@@ -6,16 +6,16 @@ import "./Home.css"
 export default function Home() {
   const [products, setProducts] = useState([])
   const [loading, setLoading] = useState(true)
-  const role=localStorage.getItem("role")
-  const navigate=useNavigate()
+  const role = localStorage.getItem("role")
+  const navigate = useNavigate()
   useEffect(() => {
     fetchProducts()
   }, [])
 
-  function addToCart(productId){
-    console.log(productId,role)
-    const userId=localStorage.getItem("userId")
-    if(!userId){
+  function addToCart(productId) {
+    console.log(productId, role)
+    const userId = localStorage.getItem("userId")
+    if (!userId) {
       Swal.fire({
         title: "Login Required",
         text: "Please login first to add products to cart.",
@@ -24,23 +24,24 @@ export default function Home() {
       return false
     }
     axios.post("http://localhost:4000/api/cart/add",
-      {productId, quantity:1}, 
-      {params:{userId}
-    })
-      .then(res=>{
-        if(res.status==200){
+      { productId, quantity: 1 },
+      {
+        params: { userId }
+      })
+      .then(res => {
+        if (res.status == 200) {
           Swal.fire({
             title: "Success",
             text: "Product added to cart successfully.",
             icon: "success"
           })
         }
-        else{
+        else {
           alert(res.data.message)
         }
       })
-      .catch(err=>{
-        console.log("error from add cart logic ",err)
+      .catch(err => {
+        console.log("error from add cart logic ", err)
       })
   }
 
@@ -65,20 +66,20 @@ export default function Home() {
               products.map((i) => (
                 <div className="col" key={i._id}>
                   <div className="card h-100">
-                      <div className="card-body">
-                        <h5 className="card-title"><b>Name: </b>{i.name}</h5>
-                        <p className="card-text"><b>Price: </b>{i.price}</p>
-                        <p className="card-text"><b>Category: </b>{i.category}</p>
-                        <p className="card-text"><b>Description: </b>{i.description}</p>
-                        <p className="card-text"><b>Stock: </b>{i.stock}</p>
-                        {
-                          role=="admin"?(
-                            <button onClick={()=>deleteProduct(i._id)} className='btn btn-danger'>Delete</button>
-                          ):(
-                            <button onClick={()=>addToCart(i._id)} className='btn btn-warning text-white'>Add to Cart</button>
-                          )
-                        }
-                      </div>
+                    <div className="card-body">
+                      <h5 className="card-title"><b>Name: </b>{i.name}</h5>
+                      <p className="card-text"><b>Price: </b>{i.price}</p>
+                      <p className="card-text"><b>Category: </b>{i.category}</p>
+                      <p className="card-text"><b>Description: </b>{i.description}</p>
+                      <p className="card-text"><b>Stock: </b>{i.stock}</p>
+                      {
+                        role == "admin" ? (
+                          <button onClick={() => deleteProduct(i._id)} className='btn btn-danger'>Delete</button>
+                        ) : (
+                          <button onClick={() => addToCart(i._id)} className='btn btn-warning text-white'>Add to Cart</button>
+                        )
+                      }
+                    </div>
                   </div>
                 </div>
               ))
